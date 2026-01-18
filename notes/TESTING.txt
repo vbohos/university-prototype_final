@@ -1,0 +1,54 @@
+TESTING CHECKLIST (RBAC + Data Sync)
+
+A. Registration / Login (Μέρος Α)
+
+Register ως Student με code STUD2025 → εγγραφή επιτυχής, users.role_id=1.
+
+Register ως Professor με code PROF2025 → εγγραφή επιτυχής, users.role_id=2.
+
+Login με σωστά credentials → δημιουργείται session user_id, username, role_id.
+
+Logout → session destroyed, πρόσβαση σε protected pages κάνει redirect στο login.
+
+B. RBAC / Forbidden
+
+Student → ανοίγει student/* pages.
+
+Student → απόπειρα σε professor/* → forbidden.php.
+
+Professor → ανοίγει professor/* pages.
+
+Professor → απόπειρα σε student/* → forbidden.php.
+
+C. Courses / Enrollments (Sync βάση)
+
+Professor δημιουργεί course “Web Development”.
+
+Student βλέπει course list και κάνει enrollment.
+
+Επιβεβαίωση DB: εγγραφή σε enrollments (course_id, student_id).
+
+D. Assignments / Submissions
+
+Professor δημιουργεί assignment “Assignment1” για το course.
+
+Student βλέπει assignments στο μάθημα.
+
+Student κάνει submission κείμενο/περιεχόμενο.
+
+Επιβεβαίωση DB: εγγραφή σε submissions (assignment_id, student_id, content).
+
+E. Grading / Grades (Data Sync)
+
+Professor ανοίγει submissions του assignment.
+
+Καταχωρεί grade (π.χ. 85.00) + feedback.
+
+Επιβεβαίωση DB: εγγραφή/ενημέρωση σε grades (submission_id, professor_id, grade, feedback).
+
+Student ανοίγει student/grades.php και βλέπει τον βαθμό → αποδεικνύεται συγχρονισμός δεδομένων.
+
+Credentials TEST: 
+
+1) prof1@auth.com - 12345p
+2) stud1@auth.com - 12345s
